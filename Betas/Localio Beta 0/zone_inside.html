@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Metal Gear Geo 2: Inside a Zone</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+	var zone =
+	{"shape": [
+		 {"lat": "35.789020", "lon": "-78.658955"}
+		,{"lat": "35.788929", "lon": "-78.657657"}
+		,{"lat": "35.789625", "lon": "-78.657619"}
+/*		,{"lat": "35.789203", "lon": "-78.658108"}*/
+		,{"lat": "35.790390", "lon": "-78.659730"}
+	]};
+</script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<style>
+	html { height: 100% }
+	body { height: 100%; margin: 0px; padding: 0px }
+	#buttons{height:10%;}
+	#map{height:90%}
+</style>
+</head>
+
+<body>
+	<div id="buttons">
+		<a href="#">Draw</a>
+		<a href="#">Play</a>
+		<a href="javascript:METALGEAR.raycast(myPolygon,yourMarker);">Raycast</a>
+	</div>
+	
+	<div id="map"></div>
+
+	<script>
+		var mapDiv = document.getElementById("map");
+		var zero = new google.maps.LatLng(35.76217573712796,-78.7253612279892); 
+		var myMap = new google.maps.Map(mapDiv,
+		{
+			zoom: 2,
+			center: zero,
+			mapTypeId: google.maps.MapTypeId.SATELLITE
+		});
+		var myZoneCoords = [];
+		for(var i=0; i<zone.shape.length; i++){
+			newCoords = new google.maps.LatLng(zone.shape[i].lat, zone.shape[i].lon);
+			myZoneCoords.push(newCoords);
+		}
+		
+		myPolygon = new google.maps.Polygon({
+			paths: myZoneCoords,
+			strokeColor: "#FF0000",
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: "#FF0000",
+			fillOpacity: 0.35,
+			clickable:false
+		});
+ 
+		myPolygon.setMap(myMap);
+		
+		var yourMarker = new google.maps.Marker({
+			position: zero, 
+			map: myMap,
+			title:"You Are Here"
+		});
+		
+		var yourAccuracy = new google.maps.Circle({
+			 clickable:false
+			,fillColor:"#FADD00"
+			,fillOpacity:0.25
+			,strokeColor:"#FADD00"
+			,strokeWeight:2
+			,strokeOpacity:0.8
+			,zIndex:9000
+			,map:myMap
+			,position:zero
+			,radius:0
+		});
+		
+	</script>
+	<script language="javascript" src="METALGEAR.js"></script>
+</body>
+</html>

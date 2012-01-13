@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Metal Gear Geo 2</title>
+<script>
+	//						y					x
+	// top-left:	(35.826460307950676, -78.60501050949097)
+	// prize:		(35.82305897632117, -78.60375255346298)
+	// bot-right:	(35.818926727738734, -78.59996795654297)
+	
+	var boundsT = 35.826460307950676;
+	var boundsL = -78.60501050949097;
+	var boundsB = 35.818926727738734;
+	var boundsR = -78.59996795654297;
+	var prizeY = 0;
+	var prizeX = 0;
+	var scaleX = boundsR - boundsL;
+	var scaleY = boundsT - boundsB;
+
+	function getScaledCoordinateX(input){
+		return (input - boundsL) / (boundsR - boundsL) * 460;
+	}
+	
+	function getScaledCoordinateY(input){
+		return (input - boundsT) / (boundsB - boundsT) * 834;
+	}
+	var savedPosition;
+</script>
+<style>
+	body{
+		background:#white;
+		margin:0 auto;
+		width:480px;
+		height:854px;
+	}
+</style>
+</head>
+
+<body>
+	<div style="background: url('camo-background.gif'); width:460px; height:834px; border:#300 solid 4px;">
+		<canvas id="canvas" width="460" height="834"></canvas>
+	</div>
+	<br/>
+	<a href="http://www.html5rocks.com/tutorials/geolocation/trip_meter/#toc-final">Test Number One</a>
+	<br/>
+	<br/>
+	<a href="http://labs.thecssninja.com/pocket_speedo/">Text Number Two</a>
+	<script>
+		/**
+		* METAL GEAR GEO 2
+		* http://rgbk.org/mg2
+		* 2010 Wray Bowling
+		*/
+		var METALGEAR = METALGEAR || {};
+		
+		(function(){
+			var canvas = document.getElementById("canvas"),
+				c = canvas.getContext("2d");
+			c.lineWidth = 4;			
+			c.strokeStyle = "rgb(0,80,0)";
+			c.fillStyle = "rgb(0,0,0)";
+			
+			METALGEAR.getNewPosition = function(position){
+				console.log("position OK");
+				METALGEAR.updateCanvas(position);
+				coordinatesListener = navigator.geolocation.watchPosition(METALGEAR.updateCanvas, METALGEAR.handleError, { enableHighAccuracy:true });
+			};
+			
+			METALGEAR.updateCanvas = function(position){
+				savedPosition = position;
+				var x = position.coords.longitude;
+				var y = position.coords.latitude;
+				//console.log("x:y | " + x +":" y);
+				c.beginPath();
+				c.arc(getScaledCoordinateX(x), getScaledCoordinateY(y), 10,0,Math.PI*2,false);
+				c.closePath();
+				c.fill();
+			};
+			
+			METALGEAR.handleError = function(error) {
+				alert("Debug this: " + error);
+			};
+			
+			if(navigator.geolocation) {
+				console.log("geolocation OK");
+				navigator.geolocation.getCurrentPosition(METALGEAR.getNewPosition, METALGEAR.handleError, { enableHighAccuracy:true });
+			} else {
+				alert("This browser sucks.");
+			}
+		})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Metal Gear Geo 2</title>
+<script>
+	//						y					x
+	// top-left:	(35.857474420755494, -78.71326446533203)
+	// prize:
+	// bot-right:	(35.783981057090784, -78.5716438293457)
+	
+	var boundsT = 35.857474420755494;
+	var boundsL = -78.71326446533203;
+	var boundsB = 35.783981057090784;
+	var boundsR = -78.5716438293457;
+	var prizeY = 0;
+	var prizeX = 0;
+	var scaleX = boundsR - boundsL;
+	var scaleY = boundsT - boundsB;
+
+	function getScaledCoordinateX(input){
+		return (input - boundsL) / (boundsR - boundsL) * 834;
+	}
+	
+	function getScaledCoordinateY(input){
+		return (input - boundsT) / (boundsB - boundsT) * 460;
+	}
+	var savedPosition;
+</script>
+<style>
+	body{
+		background:#white;
+		margin:0 auto;
+		width:854px;
+		height:480px;
+	}
+</style>
+</head>
+
+<body>
+	<div style="background: url('raleigh.jpg'); width:834px; height:460px; border:#300 solid 4px;">
+		<canvas id="canvas" width="834" height="460"></canvas>
+		<div id="long">long: ??</div>
+		<div id="lat">lat: ??</div>
+	</div>
+	<br/>
+	<br/>
+	<a href="http://www.html5rocks.com/tutorials/geolocation/trip_meter/#toc-final">Test Number One</a>
+	<br/>
+	<br/>
+	<a href="http://labs.thecssninja.com/pocket_speedo/">Text Number Two</a>
+	<script language="javascript" src="position.js"></script>
+</body>
+</html>

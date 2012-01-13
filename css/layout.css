@@ -1,0 +1,23 @@
+*{
+	outline:0;
+	margin:0;
+	border:0;
+	padding:0;
+}
+
+html, body{
+	height:100%;
+}
+
+body{
+	overflow-y:scroll;
+	font-size:13pt;
+	font-family:Inconsolata;
+}
+
+canvas#main{
+	background-color:black;
+	margin:0 auto;
+	width:160px;
+	height:160px;
+}
