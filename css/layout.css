@@ -21,3 +21,20 @@ canvas#main{
 	width:160px;
 	height:160px;
 }
+
+body{
+	padding:10px;
+}
+button{
+	padding:10px;
+	margin:10px 0;
+	font-size:15pt;
+	border-radius:10px;
+	border:solid 1px grey;
+}
+button:hover{
+	background-color:yellow;
+}
+button:active{
+	background-color:green;
+}

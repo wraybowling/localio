@@ -4,31 +4,15 @@
 		<title>Localio: Saving Locations Test</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/layout.css">
-		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
-		<style>
-			body{
-				padding:10px;
-			}
-			button{
-				padding:10px;
-				margin:10px 0;
-				font-size:15pt;
-				border-radius:10px;
-				border:solid 1px grey;
-			}
-			button:hover{
-				background-color:yellow;
-			}
-			button:active{
-				background-color:green;
-			}
-		</style>
+		
+		<script type="text/javascript" src="js/beta2.js"></script>
+		<script type="text/javascript" src="js/geo.js"></script>
+<!--		<script type="text/javascript" src="js/canvas.js"></script> -->
 		
 	</head>
 
 	<body>
-		<h1>Localio: Saving Locations Test</h1>
+		<h1>Localio: Saving Locations Test dooba dooba</h1>
 
 		<h2>You can store any of the following locations at the location you are currently at</h2>
 		<button id="home">Home</button>
@@ -37,15 +21,23 @@
 		<button id="gas_station">Gas station</button>
 		<button id="creek">Creek</button>
 		<button id="tree_house">Tree house</button>
-		<button id="dirt_hill">Construction site</button>
+		<button id="dirt_hill">Dirt Hill</button>
 		<br>
-		<canvas id="main"></canvas>
+		<canvas id="mapCanvas"></canvas>
 		<p>messages: <span id="js_console"></span></p>
 
+	<!--
 		<script>
 			$('button').click(function(event){
-				console.log(this.id);
+				var outputString = playerData.locales[this.id].description;
+				$('#js_console').text( outputString );
+//				console.log( playerData );
+				updateLocale();
 			});
 		</script>
+		-->
+		
+<!--		<script type="text/javascript" src="js/start.js"></script> -->
+
 	</body>
 </html>
