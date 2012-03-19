@@ -5,21 +5,8 @@
 */
 
 var localio = localio || {};
-/*
-(function(){
-*/
 
-	/*localio.player = localio.player || localio.load('player');
-	with(localio.player.coords){
-		accuracy = null;
-		altitude = null;
-		altitudeAccuracy = null;
-		heading = null;
-		latitude = null;
-		longitude = null;
-		speed = null;
-	}
-	*/
+localio.geo = {};
 		
 /*	localio.calculateBounds = function(latLng){
 		var bounds = new google.maps.LatLngBounds();
@@ -37,7 +24,7 @@ var localio = localio || {};
 	}
 	*/
 	
-	localio.raycast = function(polygon,point){
+	localio.geo.raycast = function(polygon,point){
 		if(this.bounds != null && !this.bounds.contains(POSITION)){
 			return false;
 		}
@@ -71,14 +58,12 @@ var localio = localio || {};
 		return inPoly;
 	}
 
-	localio.updatePosition = function(position){
+	localio.geo.updatePosition = function(position){
 		console.log('position updated with accuracy ' + position.coords.accuracy);
 		
 		localio.session.gpsAccessed = true;
 		localio.session.location = position.coords;
 		localio.cache();
-		
-		console.log(localio.session);
 		
 //		yourLatlng = new google.maps.LatLng(Y,X);
 		
@@ -91,16 +76,16 @@ var localio = localio || {};
 //		localio.raycast(myPolygon,yourMarker);
 	}
 	
-	localio.handleError = function(error) {
+	localio.geo.handleError = function(error) {
 		console.log("Error " + error.code + ": " + error.message);
 	};
 	
-	//BROWSER CHECKS AND STARTS
+	//BROWSER CHECKS AND HANDLER STARTS
 	
 	//if map is loaded
 	if(!!navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(localio.updatePosition, localio.handleError, { enableHighAccuracy:true });
-		navigator.geolocation.watchPosition(localio.updatePosition, localio.handleError, { enableHighAccuracy:true });
+		navigator.geolocation.getCurrentPosition(localio.geo.updatePosition, localio.geo.handleError, { enableHighAccuracy:true });
+		navigator.geolocation.watchPosition(localio.geo.updatePosition, localio.geo.handleError, { enableHighAccuracy:true });
 	} else {
 		window.location.href = 'unsupported_browser.html';
 	}

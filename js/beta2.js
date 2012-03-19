@@ -37,11 +37,15 @@ localio.session = localio.session || sessionStorage.getObject('localio_session')
 
 localio.save = function(){
 	localStorage.setObject('localio_storage',localio.storage);
+	console.log('player data saved');
+	console.log(localio.storage);
 };
 localio.save();
 
 localio.cache = function(){
 	sessionStorage.setObject('localio_session',localio.session);
+	console.log('session cached');
+	console.log(localio.session);
 };
 localio.cache();
 
