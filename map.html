@@ -1,44 +1,27 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Localio: Saving Locations Test</title>
+		<title>Localio: Map of Locales</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/layout.css">
+		<link rel="stylesheet" type="text/css" href="js/leaflet/dist/leaflet.css">
 
-<!--		<script type="text/javascript" src="js/jquery.js"></script> -->		
 		<script type="text/javascript" src="js/beta2.js"></script>
 		<script type="text/javascript" src="js/geo.js"></script>
-<!--		<script type="text/javascript" src="js/canvas.js"></script> -->
-		
+		<script type="text/javascript" src="js/leaflet/dist/leaflet.js"></script>
 	</head>
 
 	<body>
-		<h1>Localio: Saving Locations Test dooba dooba</h1>
+		<div id="map"></div>
 
-		<h2>You can store any of the following locations at the location you are currently at</h2>
-		<button id="home">Home</button>
-		<button id="front_yard">Front Yard</button>
-		<button id="back_yard">Back Yard</button>
-		<button id="gas_station">Gas station</button>
-		<button id="creek">Creek</button>
-		<button id="tree_house">Tree house</button>
-		<button id="dirt_hill">Dirt Hill</button>
-		<br>
-		<canvas id="mapCanvas"></canvas>
-		<p>messages: <span id="js_console"></span></p>
-
-	<!--
 		<script>
-			$('button').click(function(event){
-				var outputString = playerData.locales[this.id].description;
-				$('#js_console').text( outputString );
-//				console.log( playerData );
-				updateLocale();
-			});
+			var map = new L.Map('map');
+	
+			var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+				cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+				cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+	
+			map.addLayer(cloudmade);
 		</script>
-		-->
-		
-<!--		<script type="text/javascript" src="js/start.js"></script> -->
-
 	</body>
 </html>
