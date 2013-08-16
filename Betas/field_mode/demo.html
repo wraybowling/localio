@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+
+<style>
+body{
+	font-family: Helvetica;
+	font-weight: bold;
+	font-size:30pt;
+}
+
+.stage{
+	position:relative;
+	-webkit-perspective: 190;
+	height:240px;
+	overflow:hidden;
+}
+
+.panel{
+	position:absolute;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	background-color:orange;
+	left: 50%;
+	top:50%;
+	width: 404px;
+	height: 600px;
+	background-color: black;
+	background-repeat: no-repeat;
+	background-size: 400% auto;
+}
+
+.turntable{
+	position:relative;
+	height:240px;
+	-webkit-animation-name: y-spin;
+	-webkit-animation-duration: 60s;
+	-webkit-transform-style: preserve-3d;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
+
+@-webkit-keyframes y-spin {
+	0%    { -webkit-transform: rotateY(0deg); }
+	50%   { -webkit-transform: rotateY(180deg); }
+	100%  { -webkit-transform: rotateY(360deg); }
+}
+
+.a .panel{ background-image:url('IMG_2351.JPG'); }
+.b .panel{ background-image:url('IMG_2362.JPG'); }
+.c .panel{ background-image:url('IMG_2938.JPG'); }
+</style>
+</head>
+
+<body>
+
+<div class="stage a">
+	<div id="turntable" class="turntable">
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-000deg) translateZ(-200px); background-position: 0 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-090deg) translateZ(-200px); background-position: -402px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-180deg) translateZ(-200px); background-position: -804px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-270deg) translateZ(-200px); background-position: -1206px 50%;"></div>
+	</div>
+</div>
+
+
+<div class="stage b">
+	<div id="turntable" class="turntable">
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-000deg) translateZ(-200px); background-position: 0 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-090deg) translateZ(-200px); background-position: -402px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-180deg) translateZ(-200px); background-position: -804px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-270deg) translateZ(-200px); background-position: -1206px 50%;"></div>
+	</div>
+</div>
+
+
+<div class="stage c">
+	<div id="turntable" class="turntable">
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-000deg) translateZ(-200px); background-position: 0 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-090deg) translateZ(-200px); background-position: -402px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-180deg) translateZ(-200px); background-position: -804px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-270deg) translateZ(-200px); background-position: -1206px 50%;"></div>
+	</div>
+</div>
+
+
+<script src="position.js"></script>
+</body>
+</html>
