@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		input[type=range],
+		audio{
+			width:100%;
+		}
+	</style>
+</head>
+
+<body>
+	<audio id="sounds_off" src="wray1.mp3" controls></audio>
+	<br>
+
+	<input id="timer" type="range"  value="50" min="0" max="200" onchange="setDelay(this.value)">
+	<label for="timer">Delay</label>
+	<input id="shift" type="range"  value="50" min="0" max="200" onchange="setShift(this.value)">
+	<label for="shift">Shift</label>
+
+	<p id="display_text"></p>
+
+	<button onclick="speak('rosie')">Speak as Rosie</button>
+	<!--<button onclick="speak('slow_rosie')">Speak as Slow Rosie</button>-->
+	<button onclick="speak('wray')">Speak as Wray</button>
+	<!--<button onclick="speak('slow_wray')">Speak as Slow Wray</button>-->
+
+	<!-- logic starts here-->
+
+	<script>
+		var display_text = document.getElementById('display_text');
+		var sounds_off = document.getElementById('sounds_off');
+		var sentence = "I went to the store to buy myself a chocolate bar. This guy jumped out and took my money.".toUpperCase();
+		var regex_letters = /[A-Z]/;
+		var regex_punctuation = /( |,|\.|!|~|—|\?)/;
+		var delay = 70; //ms
+		var shift = 0; //ms
+		var timer = setInterval();
+		var index = 0;
+
+		var people = {
+			/*wray:{
+				talking_speed: 84
+				,shift: 46
+			}*/
+			wray:{
+				talking_speed: 138
+				,shift: 6
+			}
+			/*,rosie:{
+				talking_speed: 72
+				,shift: 85
+			}*/
+			,rosie:{
+				talking_speed: 142
+				,shift: 0
+			}
+		};
+
+		function speak(person){
+			index = 0;
+			sounds_off.src = person+'1.mp3';
+			delay = people[person].talking_speed;
+			shift = people[person].shift;
+			timer = setInterval(setPlayhead, delay);
+			console.log('delay:', delay, ' shift:',shift);
+		}
+
+		function setDelay(new_value){
+			delay = new_value;
+			clearInterval(timer);
+			timer = setInterval(setPlayhead, delay);
+			console.log('delay:', delay, ' shift:',shift);
+		}
+
+		function setShift(new_value){
+			shift = new_value;
+			console.log('delay:', delay, ' shift:',shift);
+		}
+
+		function setPlayhead(){
+			sounds_off.playbackRate = Math.random()*0.5+1;
+
+			var current_letter = sentence.charAt(index);
+			if( current_letter.match(regex_letters) ){
+				sounds_off.currentTime = (sentence.charCodeAt(index) - 65) / 2 + 0.5 + shift/1000;
+			}else if( current_letter.match(regex_punctuation) ){
+				sounds_off.currentTime = (sentence.charCodeAt(index) - 65) / 2 + 0.5 + shift/1000;
+			}else{
+				sounds_off.currentTime = Math.random()*26 / 2 + 0.5;
+			}
+			sounds_off.play();
+		//	console.log('current time: ',sounds_off.currentTime);
+
+			if(index == sentence.length){
+				clearInterval(timer);
+				sounds_off.pause();
+			}else{
+				index++;
+			}
+
+			display_text.innerHTML = sentence.substr(0,index);
+
+			//console.log('letter time: ', (sentence.charCodeAt(index) - 65) / 2 + 0.5 );
+		}
+	</script>
+</body>
+</html>
