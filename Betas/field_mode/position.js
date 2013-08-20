@@ -41,13 +41,18 @@ var METALGEAR = METALGEAR || {};
 		document.getElementById('gamma').value = _orientation.gamma;
 
 		//turntable.style.webkitTransform = 'rotateX('+_orientation.beta+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
-		if(window.orientation === -90){
-			turntable.style.webkitTransform = 'translateZ(200px) rotateX('+(_orientation.gamma-90)+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
-		}else if(window.orientation === 0){
-			turntable.style.webkitTransform = 'translateZ(200px) rotateX('+(_orientation.beta)+'deg)';
-		}else if(window.orientation === 90){
-			turntable.style.webkitTransform = 'translateZ(200px) rotateX('+(180-_orientation.gamma+90)+'deg)';
+		var orientation_style = '';
+		if(window.orientation === -90){ //right
+			orientation_style += 'translateZ(200px) rotateZ('+(_orientation.beta)+'deg) rotateX('+(_orientation.gamma-90)+'deg)';
+		}else if(window.orientation === 90){ //left
+			orientation_style += 'translateZ(200px) rotateZ('+(-_orientation.beta)+'deg) rotateX('+(180-_orientation.gamma+90)+'deg)';
+		}else{
+			orientation_style += 'translateZ(200px) rotateX('+(_orientation.beta)+'deg)';
 		}
+
+		orientation_style += ' rotateY('+_orientation.webkitCompassHeading+'deg)';
+
+		turntable.style.webkitTransform = orientation_style;
 	};
 
 	if(!!window.DeviceOrientationEvent) {
