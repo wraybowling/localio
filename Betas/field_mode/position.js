@@ -43,14 +43,12 @@ var METALGEAR = METALGEAR || {};
 		//turntable.style.webkitTransform = 'rotateX('+_orientation.beta+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
 		var orientation_style = '';
 		if(window.orientation === -90){ //right
-			orientation_style += 'translateZ(200px) rotateZ('+(_orientation.beta)+'deg) rotateX('+(_orientation.gamma-90)+'deg)';
+			orientation_style += 'translateZ(200px) rotateZ('+(_orientation.beta)+'deg) rotateX('+(_orientation.gamma-90)+'deg) rotateY('+(_orientation.webkitCompassHeading-90)+'deg)';
 		}else if(window.orientation === 90){ //left
-			orientation_style += 'translateZ(200px) rotateZ('+(-_orientation.beta)+'deg) rotateX('+(180-_orientation.gamma+90)+'deg)';
+			orientation_style += 'translateZ(200px) rotateZ('+(-_orientation.beta)+'deg) rotateX('+(180-_orientation.gamma+90)+'deg) rotateY('+(_orientation.webkitCompassHeading+90)+'deg)';
 		}else{
-			orientation_style += 'translateZ(200px) rotateX('+(_orientation.beta)+'deg)';
+			orientation_style += 'translateZ(200px) rotateX('+(_orientation.beta)+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
 		}
-
-		orientation_style += ' rotateY('+_orientation.webkitCompassHeading+'deg)';
 
 		turntable.style.webkitTransform = orientation_style;
 	};
