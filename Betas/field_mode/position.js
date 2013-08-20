@@ -41,7 +41,13 @@ var METALGEAR = METALGEAR || {};
 		document.getElementById('gamma').value = _orientation.gamma;
 
 		//turntable.style.webkitTransform = 'rotateX('+_orientation.beta+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
-		turntable.style.webkitTransform = 'rotateX('+(_orientation.gamma-90)+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
+		if(window.orientation === -90){
+			turntable.style.webkitTransform = 'translateZ(200px) rotateX('+(_orientation.gamma-90)+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
+		}else if(window.orientation === 0){
+			turntable.style.webkitTransform = 'translateZ(200px) rotateX('+(_orientation.beta)+'deg)';
+		}else if(window.orientation === 90){
+			turntable.style.webkitTransform = 'translateZ(200px) rotateX('+(180-_orientation.gamma+90)+'deg)';
+		}
 	};
 
 	if(!!window.DeviceOrientationEvent) {

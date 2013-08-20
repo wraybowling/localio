@@ -12,7 +12,7 @@ input{
 
 .stage{
 	position:relative;
-	-webkit-perspective: 190;
+	-webkit-perspective: 276;
 	height:240px;
 	overflow:hidden;
 }
@@ -79,10 +79,10 @@ input{
 
 <div class="stage c">
 	<div id="turntable" class="turntable">
-		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-000deg) translateZ(-200px); background-position: 0 50%;"></div>
-		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-090deg) translateZ(-200px); background-position: -402px 50%;"></div>
-		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-180deg) translateZ(-200px); background-position: -804px 50%;"></div>
-		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-270deg) translateZ(-200px); background-position: -1206px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-000deg) translateZ(-202px); background-position: 0 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-090deg) translateZ(-202px); background-position: -402px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-180deg) translateZ(-202px); background-position: -804px 50%;"></div>
+		<div class="panel" style="-webkit-transform: translateX(-50%) translateY(-50%) rotateY(-270deg) translateZ(-202px); background-position: -1206px 50%;"></div>
 	</div>
 </div>
 
@@ -91,14 +91,14 @@ input{
 <input id="heading" type="range" min="0" max="360">
 <label for="heading">webkitCompassHeading</label>
 <br>
-<input id="alpha" type="range" min="-180" max="180">
+<input id="alpha" type="text" min="-180" max="180">
 <label for="alpha">alpha</label>
 
-<input id="beta" type="range" min="0" max="180">
-<label for="beta">beta</label>
+<input id="beta" type="text" min="-180" max="180">
+<label for="beta">beta(X)</label>
 
 <input id="gamma" type="range" min="-180" max="180">
-<label for="gamma">gamma</label>
+<label for="gamma">gamma(Y)</label>
 
 <h2>Velocity</h2>
 
