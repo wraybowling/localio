@@ -3,10 +3,11 @@
 <head>
 
 <style>
-body{
+body,
+input{
 	font-family: Helvetica;
 	font-weight: bold;
-	font-size:30pt;
+	font-size:20pt;
 }
 
 .stage{
@@ -85,7 +86,30 @@ body{
 	</div>
 </div>
 
-<div id="heading">sdlkfhjsdlkfjsldkfj</div>
+<h2>Orientation</h2>
+
+<input id="heading" type="range" min="0" max="360">
+<label for="heading">webkitCompassHeading</label>
+<br>
+<input id="alpha" type="range" min="-180" max="180">
+<label for="alpha">alpha</label>
+
+<input id="beta" type="range" min="0" max="180">
+<label for="beta">beta</label>
+
+<input id="gamma" type="range" min="-180" max="180">
+<label for="gamma">gamma</label>
+
+<h2>Velocity</h2>
+
+<input id="Vx" type="range" min="-100" max="100">
+<label for="Vx">Vx</label>
+
+<input id="Vy" type="range" min="-100" max="100">
+<label for="Vy">Vy</label>
+
+<input id="Vz" type="range" min="-100" max="100">
+<label for="Vz">Vz</label>
 
 <script src="position.js"></script>
 </body>

@@ -7,7 +7,6 @@ var METALGEAR = METALGEAR || {};
 
 (function(){
 	var turntable = document.getElementById('turntable');
-	var heading = document.getElementById('heading');
 
 	METALGEAR.getNewPosition = function(_position){
 		console.log('new',_position);
@@ -17,6 +16,7 @@ var METALGEAR = METALGEAR || {};
 
 	METALGEAR.updateCanvas = function(_position){
 		console.log('updated',_position);
+		METALGEAR.position = _position;
 		//heading.innerHTML = position.coords.heading;
 	};
 
@@ -33,12 +33,43 @@ var METALGEAR = METALGEAR || {};
 
 	METALGEAR.handleOrientation = function(_orientation){
 	//	console.log('orientation:', _orientation);
-		heading.innerHTML = _orientation.webkitCompassHeading;
-		turntable.style.webkitTransform = 'rotateY('+_orientation.webkitCompassHeading+'deg)';
-	}
+		METALGEAR.orientation = _orientation;
+
+		document.getElementById('heading').value = _orientation.webkitCompassHeading;
+		document.getElementById('alpha').value = _orientation.alpha;
+		document.getElementById('beta').value = _orientation.beta;
+		document.getElementById('gamma').value = _orientation.gamma;
+
+		//turntable.style.webkitTransform = 'rotateX('+_orientation.beta+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
+		turntable.style.webkitTransform = 'rotateX('+(_orientation.gamma-90)+'deg) rotateY('+_orientation.webkitCompassHeading+'deg)';
+	};
 
 	if(!!window.DeviceOrientationEvent) {
- 		console.log('%cDevice Orientation works', 'color:green');
- 		window.addEventListener('deviceorientation', METALGEAR.handleOrientation, false);
+		console.log('%cDevice Orientation works', 'color:green');
+		window.addEventListener('deviceorientation', METALGEAR.handleOrientation);
 	}
+
+	METALGEAR.handleOrientationChange = function(_orientation){
+	//	console.log('orientation:', _orientation);
+	//	METALGEAR.orientation = _orientation;
+		console.log(_orientation);
+	};
+
+	//if(!!window.DeviceOrientationEvent) {
+	//	console.log('%cDevice Orientation Changing works', 'color:green');
+		window.addEventListener('orientationchange', METALGEAR.handleOrientationChange);
+	//}
+
+	METALGEAR.handleMotion = function(_motion){
+		METALGEAR.motion = _motion;
+		document.getElementById('Vx').value = _motion.acceleration.x * 100;
+		document.getElementById('Vy').value = _motion.acceleration.y * 100;
+		document.getElementById('Vz').value = _motion.acceleration.z * 100;
+	};
+
+	if(!!window.DeviceMotionEvent){
+		console.log('%cDevice Motion works', 'color:green');
+		window.addEventListener("devicemotion", METALGEAR.handleMotion);
+	}
+
 })();
