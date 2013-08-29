@@ -38,3 +38,7 @@ button:hover{
 button:active{
 	background-color:green;
 }
+
+.claimed{
+	color:#CCC;
+}

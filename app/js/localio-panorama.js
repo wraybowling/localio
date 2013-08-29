@@ -1,41 +1,41 @@
-/**
-* METAL GEAR GEO 2
-* http://rgbk.org/mg2
-* 2010 Wray Bowling
+/*
+* LOCALIO Panorama Class
+* http://rgbk.org
+* 2013 Wray Bowling
 */
-var METALGEAR = METALGEAR || {};
+var LOCALIO = LOCALIO || {};
 
 (function(){
 	var turntable = document.getElementById('turntable');
 
-	METALGEAR.getNewPosition = function(_position){
+	LOCALIO.getNewPosition = function(_position){
 		console.log('new',_position);
-		METALGEAR.updateCanvas(_position);
-		coordinatesListener = navigator.geolocation.watchPosition(METALGEAR.updateCanvas, METALGEAR.handleError, { enableHighAccuracy:true });
+		LOCALIO.updateCanvas(_position);
+		coordinatesListener = navigator.geolocation.watchPosition(LOCALIO.updateCanvas, LOCALIO.handleError, { enableHighAccuracy:true });
 	};
 
-	METALGEAR.updateCanvas = function(_position){
+	LOCALIO.updateCanvas = function(_position){
 		console.log('updated',_position);
-		METALGEAR.position = _position;
+		LOCALIO.position = _position;
 		//heading.innerHTML = position.coords.heading;
 	};
 
-	METALGEAR.handleError = function(_error) {
+	LOCALIO.handleError = function(_error) {
 		console.error('Geolocation error: ', _error);
 	};
 
 	if(!!window.navigator.geolocation) {
 		console.log('%cGeolocation works','color:green');
-		navigator.geolocation.getCurrentPosition(METALGEAR.getNewPosition, METALGEAR.handleError, { enableHighAccuracy:true });
+		navigator.geolocation.getCurrentPosition(LOCALIO.getNewPosition, LOCALIO.handleError, { enableHighAccuracy:true });
 	} else {
 		alert("This browser sucks.");
 	}
 
 	var initialOrientation = null;
 
-	METALGEAR.handleOrientation = function(_orientation){
+	LOCALIO.handleOrientation = function(_orientation){
 	//	console.log('orientation:', _orientation);
-		METALGEAR.orientation = _orientation;
+		LOCALIO.orientation = _orientation;
 
 		if (initialOrientation === null) {
 			initialOrientation = _orientation;
@@ -66,22 +66,22 @@ var METALGEAR = METALGEAR || {};
 
 	if(!!window.DeviceOrientationEvent) {
 		console.log('%cDevice Orientation works', 'color:green');
-		window.addEventListener('deviceorientation', METALGEAR.handleOrientation);
+		window.addEventListener('deviceorientation', LOCALIO.handleOrientation);
 	}
 
-	METALGEAR.handleOrientationChange = function(_orientation){
+	LOCALIO.handleOrientationChange = function(_orientation){
 	//	console.log('orientation:', _orientation);
-	//	METALGEAR.orientation = _orientation;
+	//	LOCALIO.orientation = _orientation;
 		console.log(_orientation);
 	};
 
 	//if(!!window.DeviceOrientationEvent) {
 	//	console.log('%cDevice Orientation Changing works', 'color:green');
-		window.addEventListener('orientationchange', METALGEAR.handleOrientationChange);
+		window.addEventListener('orientationchange', LOCALIO.handleOrientationChange);
 	//}
 
-	METALGEAR.handleMotion = function(_motion){
-		METALGEAR.motion = _motion;
+	LOCALIO.handleMotion = function(_motion){
+		LOCALIO.motion = _motion;
 		document.getElementById('Fx').value = _motion.acceleration.x * 100;
 		document.getElementById('Fy').value = _motion.acceleration.y * 100;
 		document.getElementById('Fz').value = _motion.acceleration.z * 100;
@@ -89,7 +89,7 @@ var METALGEAR = METALGEAR || {};
 
 	if(!!window.DeviceMotionEvent){
 		console.log('%cDevice Motion works', 'color:green');
-		window.addEventListener("devicemotion", METALGEAR.handleMotion);
+		window.addEventListener("devicemotion", LOCALIO.handleMotion);
 	}
 
 })();

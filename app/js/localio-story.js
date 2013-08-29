@@ -1,12 +1,12 @@
-/**
-* LOCALIO
+/*
+* LOCALIO Story Class
 * http://rgbk.org
 * 2013 Wray Bowling
 */
 
-var localio = localio || {};
+var LOCALIO = LOCALIO || {};
 
-var defaultData = {
+LOCALIO.Story = {
 	locales: {
 		home: {
 			name:"Home"
@@ -22,7 +22,7 @@ var defaultData = {
 		}
 		,gas_station: {
 			name:"Gas Station"
-			,description:"Sometimes we ride bikes down here to pick up sodas, and whatnot."
+			,description:"Sometimes we ride bikes down here to pick up sodas and whatnot."
 		}
 		,creek: {
 			name:"Creek"
@@ -36,15 +36,5 @@ var defaultData = {
 			name:"Dirt Hill"
 			,description:"The dirt hill is the starting place for almost every bike race. We have to set standards after all."
 		}
-	}
-};
-
-
-var exampleData = {
-	//okay i am at this part in the story
-	//okay i am at this place currently
-	currentLocation: {
-		type:"Point"
-		,coordinates: [100.0, 0.0]
 	}
 };

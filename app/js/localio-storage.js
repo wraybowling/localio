@@ -1,26 +1,30 @@
-console.log('starting game');
+/*
+* LOCALIO Storage Class
+* http://rgbk.org
+* 2013 Wray Bowling
+*/
 
 Storage.prototype.setObject = function(key, value) {
     this.setItem(key, JSON.stringify(value));
-}
- 
+};
+
 Storage.prototype.getObject = function(key) {
     return JSON.parse(this.getItem(key));
-}
+};
 
-var localio = localio || {};
+var LOCALIO = LOCALIO || {};
 
-localio.storage = localio.storage || localStorage.getObject('localio_storage') || {
+LOCALIO.Storage = LOCALIO.storage || localStorage.getObject('LOCALIO_storage') || {
 	player : {
-		 name: "Roy"
+		name: "Roy"
 		,favoriteFood: "peanuts"
 		,homeTown: "Raleigh"
 	}
 };
 
-localio.session = localio.session || sessionStorage.getObject('localio_session') || {
+LOCALIO.Session = LOCALIO.session || sessionStorage.getObject('LOCALIO_session') || {
 	location : {
-		 accuracy: null
+		accuracy: null
 		,altitude: null
 		,altitudeAccuracy: null
 		,heading: null
@@ -29,28 +33,23 @@ localio.session = localio.session || sessionStorage.getObject('localio_session')
 		,speed: null
 	}
 	,status : {
-		 gpsAccessed: false
-		,nearHome: null
-		,alone: null
+		gpsAccessed: false
 	}
 };
 
-localio.save = function(){
-	localStorage.setObject('localio_storage',localio.storage);
-	console.log('player data saved');
-	console.log(localio.storage);
+LOCALIO.save = function(){
+	localStorage.setObject('LOCALIO_storage',LOCALIO.storage);
+	console.log('Saved Player',LOCALIO.storage);
 };
-localio.save();
+LOCALIO.save();
 
-localio.cache = function(){
-	sessionStorage.setObject('localio_session',localio.session);
-	console.log('session cached');
-	console.log(localio.session);
+LOCALIO.cache = function(){
+	sessionStorage.setObject('LOCALIO_session',LOCALIO.session);
+	console.log('Cached Session',LOCALIO.session);
 };
-localio.cache();
-
-localio.getLocale = function(coords){
-	console.log('getting locale for coords' + coords);
+LOCALIO.cache();
+/*
+LOCALIO.getLocale = function(coords){
+	console.log('get Locale', coords);
 };
-
-console.log('made it to eof');
+*/
