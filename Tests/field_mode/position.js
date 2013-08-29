@@ -56,7 +56,7 @@ var METALGEAR = METALGEAR || {};
 		if(window.orientation === -90){ // home button on right
 			orientation_style += 'translateZ(200px) rotateZ('+(deviceRoll)+'deg) rotateX('+(deviceYaw)+'deg) rotateY('+(devicePitch)+'deg)';
 		}else if(window.orientation === 90){ // home button on left
-			orientation_style += 'translateZ(200px) rotateZ('+(deviceRoll)+'deg) rotateX('+(-deviceYaw)+'deg) rotateY('+(-devicePitch)+'deg)';
+			orientation_style += 'translateZ(200px) rotateZ('+(-devicePitch)+'deg) ';//rotateX('+(deviceYaw)+'deg) rotateY('+(deviceRoll)+'deg);
 		}else{
 			orientation_style += 'translateZ(200px) rotateZ('+(deviceRoll)+'deg) rotateY('+(-deviceYaw)+'deg) rotateX('+(devicePitch)+'deg)';
 		}
