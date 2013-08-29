@@ -1,6 +1,9 @@
 var dr = dr || {};
 
 var canvasElement = document.getElementById("mapCanvas");
+var centerX = canvasElement.width / 2;
+var centerY = canvasElement.height / 2;
+
 dr.aw = canvasElement.getContext("2d");
 
 dr.aw.beginPath();
