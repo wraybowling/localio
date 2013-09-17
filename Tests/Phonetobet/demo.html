@@ -40,14 +40,14 @@
 		var index = 0;
 
 		var people = {
-			wray:{
+			/*wray:{
 				talking_speed: 84
 				,shift: 46
-			}/*
+			}*/
 			wray:{
 				talking_speed: 138
 				,shift: 6
-			}*/
+			}
 			/*,rosie:{
 				talking_speed: 72
 				,shift: 85
@@ -60,7 +60,7 @@
 
 		function speak(person){
 			index = 0;
-			sounds_off.src = person+'1.mp3';
+			sounds_off.src = person+'.mp3';
 			delay = people[person].talking_speed;
 			shift = people[person].shift;
 			timer = setInterval(setPlayhead, delay);

@@ -24,7 +24,7 @@ LOCALIO.Geo.calculateBounds = function(latLng){
 };
 
 LOCALIO.Geo.raycast = function(polygon,point){
-	if(this.bounds != null && !this.bounds.contains(POSITION)){
+	if(this.bounds !== null && !this.bounds.contains(POSITION)){
 		return false;
 	}
 
@@ -58,11 +58,12 @@ LOCALIO.Geo.raycast = function(polygon,point){
 };
 
 LOCALIO.Geo.updatePosition = function(position){
-	console.log('Position updated', position.coords);
 
-//	LOCALIO.session.gpsAccessed = true;
-//	LOCALIO.session.location = position.coords;
-//	LOCALIO.cache();
+	LOCALIO.Session.gpsAccessed = true;
+	LOCALIO.Session.location = position.coords;
+	LOCALIO.cache();
+
+	console.log('Position updated', LOCALIO.Session.location);
 
 //		yourLatlng = new google.maps.LatLng(Y,X);
 
@@ -73,7 +74,7 @@ LOCALIO.Geo.updatePosition = function(position){
 //		myMap.setZoom(16);
 
 //		LOCALIO.raycast(myPolygon,yourMarker);
-}
+};
 
 LOCALIO.Geo.handleError = function(error) {
 	console.log("Error " + error.code + ": " + error.message);
@@ -87,4 +88,4 @@ if(!!navigator.geolocation) {
 	navigator.geolocation.watchPosition(LOCALIO.Geo.updatePosition, LOCALIO.Geo.handleError, { enableHighAccuracy:true });
 } else {
 	window.location.href = 'unsupported_browser.html';
-}
+};

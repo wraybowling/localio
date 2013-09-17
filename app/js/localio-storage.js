@@ -4,6 +4,7 @@
 * 2013 Wray Bowling
 */
 
+// Extend Local Storage to support JSON Objects
 Storage.prototype.setObject = function(key, value) {
     this.setItem(key, JSON.stringify(value));
 };
@@ -12,17 +13,17 @@ Storage.prototype.getObject = function(key) {
     return JSON.parse(this.getItem(key));
 };
 
+// Variables
 var LOCALIO = LOCALIO || {};
 
-LOCALIO.Storage = LOCALIO.storage || localStorage.getObject('LOCALIO_storage') || {
-	player : {
+LOCALIO.Storage = LOCALIO.Storage || localStorage.getObject('LOCALIO_storage') || {
+	player: {
 		name: "Roy"
-		,favoriteFood: "peanuts"
-		,homeTown: "Raleigh"
 	}
+	,locales: {}
 };
 
-LOCALIO.Session = LOCALIO.session || sessionStorage.getObject('LOCALIO_session') || {
+LOCALIO.Session = LOCALIO.Session || sessionStorage.getObject('LOCALIO_session') || {
 	location : {
 		accuracy: null
 		,altitude: null
@@ -32,24 +33,37 @@ LOCALIO.Session = LOCALIO.session || sessionStorage.getObject('LOCALIO_session')
 		,longitude: null
 		,speed: null
 	}
-	,status : {
-		gpsAccessed: false
-	}
+	,gpsAccessed: false
 };
 
+// Functions
 LOCALIO.save = function(){
-	localStorage.setObject('LOCALIO_storage',LOCALIO.storage);
-	console.log('Saved Player',LOCALIO.storage);
+	localStorage.setObject('LOCALIO_storage',LOCALIO.Storage);
+	console.log('Saved Player',LOCALIO.Storage);
 };
 LOCALIO.save();
 
 LOCALIO.cache = function(){
-	sessionStorage.setObject('LOCALIO_session',LOCALIO.session);
-	console.log('Cached Session',LOCALIO.session);
+	sessionStorage.setObject('LOCALIO_session',LOCALIO.Session);
+	console.log('Cached Session',LOCALIO.Session);
 };
 LOCALIO.cache();
-/*
-LOCALIO.getLocale = function(coords){
-	console.log('get Locale', coords);
+
+LOCALIO.claimLocale = function(_localeName){
+	with(LOCALIO){
+		if(!!Story.locales[_localeName]){
+			if(!!Storage.locales[_localeName]){
+				console.message('Sorry, this locale has already been claimed.');
+			}else{
+				Storage.locales[_localeName] = {
+					name: _localeName
+					,location: LOCALIO.Session.location
+				};
+				LOCALIO.save();
+				console.message('Locale stored forever!');
+			}
+		}else{
+			console.error('locale was not found in the Story:',_localeName);
+		}
+	}
 };
-*/

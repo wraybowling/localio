@@ -14,32 +14,26 @@
 		<h2>You can store any of the following locations at the location you are currently at</h2>
 
 		<div id="store_these">
-			<button id="home">Home</button>
-			<button id="front_yard">Front Yard</button>
-			<button id="back_yard">Back Yard</button>
-			<button id="gas_station">Gas station</button>
-			<button id="creek">Creek</button>
-			<button id="tree_house">Tree house</button>
-			<button id="dirt_hill">Dirt Hill</button>
+			<button onclick="LOCALIO.claimLocale('home')">Home</button>
+			<button onclick="LOCALIO.claimLocale('front_yard')">Front Yard</button>
+			<button onclick="LOCALIO.claimLocale('back_yard')">Back Yard</button>
+
 		</div>
 		<br>
 		<canvas id="mapCanvas"></canvas>
 		<p>messages: <span id="js_console"></span></p>
 
 		<script type="text/javascript" src="js/localio-map.js"></script>
-		<script type="text/javascript" src="js/localio-storage.js"></script>
 		<script type="text/javascript" src="js/localio-geo.js"></script>
 		<script type="text/javascript" src="js/localio-story.js"></script>
+		<script type="text/javascript" src="js/localio-storage.js"></script>
 
 		<script type="text/javascript" src="js/lib/geo-utilities.js"></script>
-
-		<script>
-			$('#store_these button').click(function(event){
-				var outputString = LOCALIO.Story.locales[this.id].description;
-				$('#js_console').text( outputString );
-				//console.log( playerData );
-				//updateLocale();
-			});
+		<script type="text/javascript">
+			console.message = function(_arguments){
+				var messages = document.getElementById('js_console');
+				messages.innerHTML = _arguments;
+			}
 		</script>
 	</body>
 </html>
