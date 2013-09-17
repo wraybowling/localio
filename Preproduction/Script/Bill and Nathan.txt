@@ -1,0 +1,107 @@
+Localio--Chapter 1--Origins
+
+--Scene opens on two young boys, standing in driveway--
+
+NATHAN: So, what was your name again?
+
+YOU: [Insert Name] (Bill). And you're Nathaniel, right?
+
+NATHAN: Right, but my friends just call me Nathan. Glad to know you, Bill. I think you're going to like Localio. Sometimes it can be a little dull, but if  you stick with meyou'll fit in just fine. I only moved here myself last year. 
+
+BILL: So have you lived in this house since you moved here?
+
+NATHAN: Yep. My parents and I used to live in an apartment in Seattle, but this has a much bigger backyard.
+
+**New Location added: Nathaniel's House**
+
+BILL: How big, exactly?
+
+NATHAN: Why don't we go find out? It looks like our parents are still talking in the kitchen.
+
+BILL: Er, I guess? Shouldn't we tell them where we're going?
+
+NATHAN: We'll be back before they even notice. Do you want to go or not?
+
+## New choice: Yes / No ##  Yes= BILL a/NATHAN a No=BILL b/NATHAN b
+
+LABEL B
+
+BILL b: Maybe we should save that for another time.
+
+NATHAN b: Fine by me--I'm always up for exploring though, just let me know when you're ready.  
+
+##Cut to--choice sequence ending##
+
+OR 
+
+BILL a: Let's do it.
+
+NATHAN a: Awesome, let's head out. 
+
+--Boys head behind house into adjacent forest--
+
+** New location added: Woods**
+
+BILL a: Wow, you really live right in the woods, huh?
+
+NATHAN a: Yep. You got a problem with that?
+
+BILL a: Sorry, no,  I didn't mean to...
+
+NATHAN a: (laughs) I'm just kiddin' you, man. The first time I ever came out here I was a little overwhelmed, too. A forest looks a lot different from a city.
+
+BILL a: No kidding.
+
+NATHAN a: A city is much brighter, more organized, and with a lot more open space. There's something about the woods that I like a lot more though.
+
+BILL a: How do you mean?
+
+NATHAN a: Well, it's not something that's always easy to explai...
+
+--Animation, Nathan trips over what appears to be a large rock--
+
+BILL a: Whoa! Are you ok??
+
+NATHAN a: (brushing himself off) Ha, I'll be fine. Who the heck left that stupid rock in the path?
+
+BILL a: (moving over to the rock) Yeah, that's really...hey, wait a second. This isn't a rock at all.
+
+NATHAN a: What??
+
+BILL a: It's a...shell?
+
+NATHAN a: A turtle shell? Wow, I've never seen one of those out here before. But, where's the turtle?
+
+BILL a: Gone, by the look of it. Maybe he traded in for a newer model.
+
+NATHAN a: In that case, we should keep it.
+
+BILL a: You think?
+
+NATHAN a: Hey, he doesn't seem to need it anymore. But Let's head back before our parents start to wonder where we ran off to.
+
+**New item: turtle shell (do we have items?)
+
+##Choice sequence ended##
+
+NATHAN: Well, it looks like our parents are just wrapping up.
+
+BILL: Yeah, looks like it. So...I'll see you at school tomorrow?
+
+NATHAN: You bet. You look nervous. Don't worry--it's just school. You'll do ok.
+
+BILL: It's not the school part I'm worried about, but thanks, Nathan. See you later.
+
+MOM: Alright Bill, let's go home. 
+
+--Scene change, transition animation. Arrive home--
+
+MOM: Well, here we are.
+
+BILL: I wish we still lived at our old house.
+
+MOM: Bill, honey, we've been over this and over this. This is our home now, so you'd better start getting used to it.
+
+**New Location added: Home**
+
+

@@ -1,0 +1,33 @@
+KEY
+
+CHARACTER: DIALOG DIALOG DIALOG.
+
+CHARACTER:
+- CHOICE [GET/USE _item_example]
+= RESPONSE [GOTO _LABEL_EXAMPLE]
+ - CHOICE
+ = RESPONSE
+- CHOICE
+- CHOICE
+
+General narration
+
+[event]
+
+(Description of on-screen visuals not provided by narration)
+
+{help text}
+
+_LABEL_EXAMPLE
+
+
+===============================================================================
+
+
+
+_LOCALIO
+
+
+
+_ACT_ONE
+
