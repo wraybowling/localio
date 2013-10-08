@@ -1,0 +1,18 @@
+Notes
+
+:Composite ideas:
+geocaching
+
+:References:
+Flat World
+Mapping by David Greenhood
+
+:gamemodes:
+world map (legend of mana)
+conversation tree (animal crossing)
+driving from the passenger's seat (enviro bear 2000)
+
+:BIKE RACES:
+Bike Races only would work if I make a fully blown mobile phone application. The speed of your movement is dependent on that constant updating. The bearing is too (even though I have an algorithm for that already)
+
+Anyway, my thought this morning is that the best (and maybe safest) way to do a bike race would be to make it completely sound-based without visuals. You ride your bike at the speed that it sounds like you should be going, and the NPC you're racing yells at you to "wait up!" or "c'mon!" or something like that. The only trouble is that iOS devices only play one sound at a time. Ugh, and in the case of iPhone, you can't create an audio instance that doesn't make the sound playing take up the whole fucking screen. And! As I learned from metal gear geo, it makes all the javascript actions of Safari freeze up.. I'm not sure if it would work at all. I might have to forget about bike races.. Besides, it's unsafe to tell people to wear headphones while they're riding their bikes, and I don't want anyone getting hit by a car. :( Still. I liked the idea. Might still try to do it in a weird way.
