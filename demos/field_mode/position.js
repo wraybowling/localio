@@ -31,40 +31,37 @@ var METALGEAR = METALGEAR || {};
 		alert("This browser sucks.");
 	}
 
-	var initialOrientation = null;
-
 	METALGEAR.handleOrientation = function(_orientation){
 	//	console.log('orientation:', _orientation);
-		METALGEAR.orientation = _orientation;
-
-		if (initialOrientation === null) {
-			initialOrientation = _orientation;
+		if (METALGEAR.calibration === undefined) {
+			METALGEAR.calibration = (360 - _orientation.alpha) - _orientation.webkitCompassHeading;
+		}else{
+			var q = (360 - _orientation.alpha) - _orientation.webkitCompassHeading;
+			q = (q + 360) % 360;
+			METALGEAR.calibration = METALGEAR.calibration*0.8 + q*0.2;
 		}
 
-		var deviceRoll = _orientation.alpha - initialOrientation.alpha;
-		var devicePitch = _orientation.beta - initialOrientation.beta;
-		var deviceYaw = _orientation.gamma - initialOrientation.gamma;
-		var deviceHeading = _orientation.heading - initialOrientation.heading;
-
-		document.getElementById('heading').value = deviceHeading;
-		document.getElementById('alpha').value = deviceRoll;
-		document.getElementById('beta').value = devicePitch;
-		document.getElementById('gamma').value = deviceYaw;
+		document.getElementById('heading').value = _orientation.webkitCompassHeading;
+		document.getElementById('alpha').value = _orientation.alpha;
+		document.getElementById('beta').value = _orientation.beta;
+		document.getElementById('gamma').value = _orientation.gamma;
 
 		//turntable.style.webkitTransform = 'rotateX('+beta+'deg) rotateY('+webkitCompassHeading+'deg)';
-		var orientation_style = '';
-		if(window.orientation === -90){ // home button on right
-			orientation_style += 'translateZ(200px) rotateZ('+(deviceRoll)+'deg) rotateX('+(deviceYaw)+'deg) rotateY('+(devicePitch)+'deg)';
-		}else if(window.orientation === 90){ // home button on left
-			orientation_style += 'translateZ(200px) rotateZ('+(-devicePitch)+'deg) ';//rotateX('+(deviceYaw)+'deg) rotateY('+(deviceRoll)+'deg);
+		var orientation_style = ['translateZ(200px)'];
+		if(window.orientation === -90){ // home button on left
+			orientation_style.push('rotateZ('+(_orientation.beta)+'deg)');
+			orientation_style.push('rotateX('+(_orientation.gamma-90)+'deg)');
+			orientation_style.push('rotateY('+(0 - (_orientation.alpha-90 + METALGEAR.calibration))+'deg)');
+		}else if(window.orientation === 90){ // home button on right
+			orientation_style.push('rotateZ('+(-_orientation.beta)+'deg)');//rotateX('+(deviceYaw)+'deg) rotateY('+(deviceRoll)+'deg);
 		}else{
-			orientation_style += 'translateZ(200px) rotateZ('+(deviceRoll)+'deg) rotateY('+(-deviceYaw)+'deg) rotateX('+(devicePitch)+'deg)';
+			orientation_style.push('rotateZ('+(_orientation.alpha)+'deg) rotateY('+(-_orientation.gamma)+'deg) rotateX('+(_orientation.beta)+'deg)');
 		}
 
-		turntable.style.webkitTransform = orientation_style;
+		turntable.style.webkitTransform = orientation_style.join(' ');
 	};
 
-	if(!!window.DeviceOrientationEvent) {
+	if(window.DeviceOrientationEvent !== undefined) {
 		console.log('%cDevice Orientation works', 'color:green');
 		window.addEventListener('deviceorientation', METALGEAR.handleOrientation);
 	}
