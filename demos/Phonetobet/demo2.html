@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			width:100%;
+		}
+	</style>
+</head>
+
+<body>
+
+	<input id="timer" type="range"  value="50" min="0" max="200" onchange="setDelay(this.value)">
+	<label for="timer">Delay</label>
+	<input id="shift" type="range"  value="50" min="0" max="200" onchange="setShift(this.value)">
+	<label for="shift">Shift</label>
+
+	<p id="display_text"></p>
+
+
+	<button onclick="speak('wray')">Speak as Wray</button>
+	<button onclick="speak()">Speak again</button>
+
+	<textarea id="source_text">Before I understood what it meant to be who I was, I certainly had a sense of what it meant to be somewhere. There were a lot of kids in my neighborhood that weren't that receptive to the concept of being a nice person. Every subject as a ten year old is a subject of war. Who can we go to war with? who can we destroy? I'm not saying that children inherintly understand the concept of war, but I am suggesting that they are mean.
+
+What brings me back to this time over and over? I thought I had left this space. "The past is the past" right? Who's Localio am I sensing right now?
+
+There's a diner up ahead. And a bike...
+
+Anyway, the kid stuff maybe doesn't matter so much right now. We'll talk about that later. Maybe forget that I mentioned it, okay?</textarea>
+
+	<script>
+		// GUI
+		function setDelay(new_value){
+			delay = new_value;
+			clearInterval(timer);
+			timer = setInterval(setPlayhead, delay);
+			console.log('delay:', delay, ' shift:',shift);
+		}
+
+		function setShift(new_value){
+			shift = new_value;
+			console.log('delay:', delay, ' shift:',shift);
+		}
+
+		// Web Audio
+		function init(){
+			try{
+				window.AudioContext = window.AudioContext || window.webkitAudioContext;
+				waapi = new AudioContext();
+			}catch(error){
+				console.error('Our dear friend WAAPI might not be supported.');
+				console.error(error);
+			}
+		}
+		init();
+
+		function person(){
+			this.buffer;
+		}
+
+		person.prototype.loadSound = function(url){
+			var request = new XMLHttpRequest();
+			request.open('GET',url,true);
+			request.responseType = 'arraybuffer';
+
+			var target = this;
+
+			request.onload = function(){
+				waapi.decodeAudioData(
+					request.response
+					,function(buffer){
+						target.buffer = buffer;
+						console.log('wrote buffer to',this);
+					}
+					,function(error){
+						console.error(error);
+					}
+				);
+			}
+
+			request.send();
+		};
+
+		person.prototype.play = function(){
+			var source = waapi.createBufferSource();
+			source.buffer = this.buffer;
+			source.connect(waapi.destination);
+			source.start(0);
+		};
+
+		var personA = new person();
+		personA.loadSound('wray.mp3');
+
+		// Text to speech processing
+		var regex_syllables = /(sh|ch|st|wh|th|[a-z])?[aeiouy]+/ig;
+		var regex_consonants = /(qu|es|[wrtpsdfghjklzxcvbmn])+/ig;
+		var regex_vowels = /[aeiouy][aeiouy]?/ig;
+
+		var ta = document.getElementById('source_text');
+		var syllables = ta.match(regex_syllables);
+
+		for (var i = 0; i < syllables; i++) {
+			var consonant = syllables[i].match(regex_consonants);
+			var vowel = syllables[i].match(regex_vowels);
+
+
+
+			var source = this.makeSource(this.buffers[type]);
+
+			source.playbackRate.value = 0.9 + Math.random() * 0.2;
+
+			source[source.start ? 'start' : 'noteOn'](time + i * interval + Math.random() * random);
+		}
+	</script>
+</body>
+</html>
