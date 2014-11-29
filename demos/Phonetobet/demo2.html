@@ -34,6 +34,9 @@ Anyway, the kid stuff maybe doesn't matter so much right now. We'll talk about t
 
 	<script>
 		// GUI
+		var delay;
+		var shift;
+
 		function setDelay(new_value){
 			delay = new_value;
 			clearInterval(timer);
@@ -58,11 +61,21 @@ Anyway, the kid stuff maybe doesn't matter so much right now. We'll talk about t
 		}
 		init();
 
-		function person(){
-			this.buffer;
+		function sample(){
+			this.buffers = [];
 		}
 
-		person.prototype.loadSound = function(url){
+		sample.prototype.phonomesList = [
+			'a','ah','ay','ai',
+			'e','ea','ee',
+			'i',
+			'o','oe','oy',
+			'u','uh',
+			'sh',
+			'qu','w','r','t','y','p','s','d','f','g','h','j','k','l','z','v','b','n','m'
+		];
+
+		sample.prototype.loadSound = function(url){
 			var request = new XMLHttpRequest();
 			request.open('GET',url,true);
 			request.responseType = 'arraybuffer';
@@ -85,36 +98,79 @@ Anyway, the kid stuff maybe doesn't matter so much right now. We'll talk about t
 			request.send();
 		};
 
-		person.prototype.play = function(){
+		sample.prototype.play = function(){
 			var source = waapi.createBufferSource();
 			source.buffer = this.buffer;
 			source.connect(waapi.destination);
 			source.start(0);
 		};
 
-		var personA = new person();
-		personA.loadSound('wray.mp3');
-
 		// Text to speech processing
-		var regex_syllables = /(sh|ch|st|wh|th|[a-z])?[aeiouy]+/ig;
-		var regex_consonants = /(qu|es|[wrtpsdfghjklzxcvbmn])+/ig;
+		var regex_syllables = /(sh|ch|wh|th|qu|es|[a-z])?[aeiouy]+/ig;
+		var regex_consonants = /(sh|ch|wh|th|qu|es|[wrtpsdfghjklzxcvbmn])+/ig;
 		var regex_vowels = /[aeiouy][aeiouy]?/ig;
 
-		var ta = document.getElementById('source_text');
-		var syllables = ta.match(regex_syllables);
+		var source_text = document.getElementById('source_text');
+		var syllables = source_text.textContent.match(regex_syllables);
 
-		for (var i = 0; i < syllables; i++) {
-			var consonant = syllables[i].match(regex_consonants);
-			var vowel = syllables[i].match(regex_vowels);
+//		console.log('syllables',syllables);
 
+		function playback(){
+			for (var i = 0; i < syllables.length; i++) {
+				var consonant = syllables[i].match(regex_consonants);
+				var vowel = syllables[i].match(regex_vowels);
+				console.log(consonant,vowel);
 
+				if(consonant === 'c'){ consonant = Math.round(Math.random()) ? 'k' : 's'; }
+				else if(consonant === 'wh'){ consonant = 'w'; }
+				else if(consonant === 'qu'){ consonant = 'k'; }
+				else if(consonant === 'es'){ consonant = 'z'; }
 
-			var source = this.makeSource(this.buffers[type]);
+				consonant_sample = new sample(consonant);
 
-			source.playbackRate.value = 0.9 + Math.random() * 0.2;
+				if(vowel === 'i'){ vowel = Math.round(Math.random()) ? 'ee' : 'ai'; }
 
-			source[source.start ? 'start' : 'noteOn'](time + i * interval + Math.random() * random);
+				vowel_sample = new sample(vowel);
+				/*
+
+				var consonant_sound = switch(consonant){
+					case 'sh': load('sh'); break;
+					case 'ch': load('ch'); break;
+					case 'wh': load('w'); break;
+					case 'th': load('th'); break;
+					case 'qu': load('k'); break;
+					case 'es': load('z'); break;
+					case 'w': load('w'); break;
+					case 'r': load('r'); break;
+					case 't': load('t'); break;
+					case 'p': load('p'); break;
+					case 's': load('s'); break;
+					case 'f': load('f'); break;
+					case 'g': load('g'); break;
+					case 'h': load('h'); break;
+					case 'j': load('j'); break;
+					case 'k': load('k'); break;
+					case 'l': load('l'); break;
+					case 'z': load('z'); break;
+					case 'x': load('k'); break;
+					case 'c': Math.round(Math.random()) ? load('k') : load('s'); break;
+					case 'v': load('v'); break;
+					case 'n': load('n'); break;
+					case 'm': load('m'); break;
+					// default:
+				}
+
+				*/
+
+				//var vowel_sound = 
+
+				sample.playbackRate.value = 0.9 + Math.random() * 0.2;
+
+				sample[sample.start ? 'start' : 'noteOn'](waapi.currentTime + i * delay + Math.random() * 0.1);
+			}
 		}
+
+		playback();
 	</script>
 </body>
 </html>
