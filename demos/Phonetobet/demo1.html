@@ -11,7 +11,7 @@
 </head>
 
 <body>
-	<audio id="sounds_off" src="wray1.mp3" controls></audio>
+	<audio id="sounds_off" src="wray.mp3" controls></audio>
 	<br>
 
 	<input id="timer" type="range"  value="50" min="0" max="200" onchange="setDelay(this.value)">
@@ -22,9 +22,13 @@
 	<p id="display_text"></p>
 
 	<button onclick="speak('rosie')">Speak as Rosie</button>
-	<!--<button onclick="speak('slow_rosie')">Speak as Slow Rosie</button>-->
+<!--
+	<button onclick="speak('slow_rosie')">Speak as Slow Rosie</button>
+-->
 	<button onclick="speak('wray')">Speak as Wray</button>
-	<!--<button onclick="speak('slow_wray')">Speak as Slow Wray</button>-->
+<!--
+	<button onclick="speak('slow_wray')">Speak as Slow Wray</button>
+-->
 
 	<!-- logic starts here-->
 
@@ -44,19 +48,22 @@
 				talking_speed: 84
 				,shift: 46
 			}
-			/*wray:{
+/*
+			wray:{
 				talking_speed: 138
 				,shift: 6
-			}*/
+			}
+*/
 			,rosie:{
 				talking_speed: 72
 				,shift: 85
 			}
-			/*,rosie:{
+/*
+			,rosie:{
 				talking_speed: 142
 				,shift: 0
-			}*/
-			
+			}
+*/
 		};
 
 		function speak(person){
@@ -92,7 +99,7 @@
 				sounds_off.currentTime = Math.random()*26 / 2 + 0.5;
 			}
 			sounds_off.play();
-		//	console.log('current time: ',sounds_off.currentTime);
+//			console.log('current time: ',sounds_off.currentTime);
 
 			if(index == sentence.length){
 				clearInterval(timer);
@@ -103,7 +110,7 @@
 
 			display_text.innerHTML = sentence.substr(0,index);
 
-			//console.log('letter time: ', (sentence.charCodeAt(index) - 65) / 2 + 0.5 );
+//			console.log('letter time: ', (sentence.charCodeAt(index) - 65) / 2 + 0.5 );
 		}
 	</script>
 </body>
