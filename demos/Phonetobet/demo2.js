@@ -54,40 +54,45 @@ function voice(name){
 	this.buffers = {};
 }
 
+voice.prototype.loadPhoneme = function(phoneme,target){
+	// AJAX the sounds into sound buffers
+	var request = new XMLHttpRequest();
+	var url = ['samples_v2',target.name,phoneme+'.mp3'].join('/');
+	request.open('GET',url,true);
+	request.responseType = 'arraybuffer';
+
+	request.onload = function(){
+		waapi.decodeAudioData(request.response,function(buffer){
+				if (!buffer) {
+					console.error('Nope. Cant decode: ', url);
+					return;
+				}
+				//createBufferSource
+				target.buffers[phoneme] = buffer;
+				console.log(target,'loaded',request);
+			}
+			,function(error){
+				console.error('ooops',error);
+			}
+		);
+	};
+
+	request.onerror = function() {
+		console.error('loadVoice: XHR failed. Are you running a server?');
+	};
+
+	request.send();
+};
+
 voice.prototype.loadVoice = function(){
 	// look for these files
 	var phonomesList = 'ah,au,ay,b,k,s,d,ee,eh,f,g,h,ih,j,l,m,n,oh,oo,oy,p,qu,r,t,uh,v,w,y,z,th,sh,ch'.split(',');
 	var target = this;
 
 	for(var i = 0; i<phonomesList.length; i++){
-		// AJAX the sounds into sound buffers
-		var request = new XMLHttpRequest();
-		var url = ['samples_v2',this.name,phonomesList[i]+'.mp3'].join('/');
-		request.open('GET',url,true);
-		request.responseType = 'arraybuffer';
-
-		request.onload = function(){
-			waapi.decodeAudioData(
-				request.response
-				,function(buffer){
-					createBufferSource
-					target.buffers[phone] = buffer;
-					console.log(target,'loaded',request);
-				}
-				,function(error){
-				//	console.error('ooops',error);
-				}
-			);
-		};
-
-		request.onerror = function() {
-			console.error('loadVoice: XHR failed. Are you running a server?');
-		}
-
-		request.send();
+		this.loadPhoneme(phonomesList[i],target);
 	}
 };
-
 
 function textToPhonemes(string){
 	// split string into usable syllables
@@ -177,6 +182,19 @@ console.log(phones);
 wray = new voice('wray');
 
 wray.loadVoice();
+
+var master = waapi.createGain();
+var buffa = waapi.createBufferSource();
+buffa.connect(master);
+
+setTimeout(function(){
+
+	buffa.buffer = wray.buffers['eh'];
+	console.log('BUFFA',buffa);
+	buffa.start(waapi.currentTime);
+}, 5000);
+
+
 
 /*
 // Define Phonomes
