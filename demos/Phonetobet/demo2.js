@@ -184,14 +184,16 @@ wray = new voice('wray');
 wray.loadVoice();
 
 var master = waapi.createGain();
+master.gain.value = 0.5;
 var buffa = waapi.createBufferSource();
 buffa.connect(master);
+master.connect(waapi.destination);
 
 setTimeout(function(){
-
 	buffa.buffer = wray.buffers['eh'];
 	console.log('BUFFA',buffa);
 	buffa.start(waapi.currentTime);
+	
 }, 5000);
 
 
