@@ -48,6 +48,9 @@ if (!waapi.createDelay)
 if (!waapi.createScriptProcessor)
 	waapi.createScriptProcessor = waapi.createJavaScriptNode;
 
+var master = waapi.createGain();
+master.gain.value = 0.5;
+master.connect(waapi.destination);
 
 function voice(name){
 	this.name = name;
@@ -72,7 +75,7 @@ voice.prototype.loadPhoneme = function(phoneme,target){
 				console.log(target,'loaded',request);
 			}
 			,function(error){
-				console.error('ooops',error);
+				console.error('ooops',url,error);
 			}
 		);
 	};
@@ -169,7 +172,13 @@ function textToPhonemes(string){
 
 
 voice.prototype.queuePhoneme = function(phoneme,time){
-	phoneme[consonant][source.start ? 'start' : 'noteOn'](time + i * interval + Math.random() * random);
+	if(wray.buffers[phoneme] !== undefined){
+		var buffa = waapi.createBufferSource();
+		buffa.buffer = wray.buffers[phoneme];
+		buffa.connect(master);
+		buffa.start(time);
+		buffa.stop(time+0.095);
+	}
 };
 
 
@@ -177,51 +186,14 @@ var source_text = document.getElementById('source_text');
 console.log(source_text.value);
 
 var phones = textToPhonemes(source_text.value);
-console.log(phones);
+console.log('dis many',phones.length);
 
 wray = new voice('wray');
 
 wray.loadVoice();
 
-var master = waapi.createGain();
-master.gain.value = 0.5;
-var buffa = waapi.createBufferSource();
-buffa.connect(master);
-master.connect(waapi.destination);
-
 setTimeout(function(){
-	buffa.buffer = wray.buffers['eh'];
-	console.log('BUFFA',buffa);
-	buffa.start(waapi.currentTime);
-	
-}, 5000);
-
-
-
-/*
-// Define Phonomes
-var bufferCount = 4;
-var buffers = new Array(bufferCount);
-for(var i=0; i<bufferCount; i++){
-	buffers[i] = waapi.createBufferSource();
-}
-}
-
-
-sample.prototype.cue = function(startTime,stopTime){
-	var source = waapi.createBufferSource();
-	source.buffer = this.buffer;
-	source.connect(waapi.destination);
-	source[source.start ? 'start' : 'noteOn'](time + i * interval + Math.random() * random);
-};
-
-
-
-//		console.log('syllables',syllables);
-
-function playback(){
-	
-}
-
-playback();
-*/
+	for(var i = 0; i<phones.length; i++){
+		wray.queuePhoneme(phones[i],waapi.currentTime+(i*0.095));
+	}
+}, 3000);
