@@ -55,6 +55,7 @@ master.connect(waapi.destination);
 function voice(name){
 	this.name = name;
 	this.buffers = {};
+	this.loadVoice();
 }
 
 voice.prototype.loadPhoneme = function(phoneme,target){
@@ -72,10 +73,9 @@ voice.prototype.loadPhoneme = function(phoneme,target){
 				}
 				//createBufferSource
 				target.buffers[phoneme] = buffer;
-				console.log(target,'loaded',request);
 			}
 			,function(error){
-				console.error('ooops',url,error);
+				console.error('file not found',url,error);
 			}
 		);
 	};
@@ -89,7 +89,7 @@ voice.prototype.loadPhoneme = function(phoneme,target){
 
 voice.prototype.loadVoice = function(){
 	// look for these files
-	var phonomesList = 'ah,au,ay,b,k,s,d,ee,eh,f,g,h,ih,j,l,m,n,oh,oo,oy,p,qu,r,t,uh,v,w,y,z,th,sh,ch'.split(',');
+	var phonomesList = 'ah,au,ay,b,k,s,d,ee,eh,f,g,h,ih,j,l,m,n,oh,oo,oy,ow,p,qu,r,t,uh,v,w,y,z,th,sh,ch'.split(',');
 	var target = this;
 
 	for(var i = 0; i<phonomesList.length; i++){
@@ -99,13 +99,17 @@ voice.prototype.loadVoice = function(){
 
 function textToPhonemes(string){
 	// split string into usable syllables
-	var regex_syllables = /(ch|ph|sh|th|qu|es|[a-z])?[aeiouy]+/ig;
+	var regex_syllables = /((ch|ph|sh|th|qu|es|[a-z])[aeiouy]+|[ –—,!~\-\.\?\n])/ig;
 	var syllables = string.match(regex_syllables);
+	console.log(syllables);
 
 	// split the consonant+vowel pairs
 	var regex_consonants = /(ch|ph|sh|th|qu|es|[wrtpsdfghjklzxcvbmn])/i;
 	var regex_vowels = /q?[aeiouy][aeiouy]?/i;
+	var regex_pauses = /[ –—,!~\-\.\?\n]/g;
 	var phonemes = [];
+	var times = [];
+	var time_stepper = 0;
 	for (var i = 0; i < syllables.length; i++) {
 		var consonant = syllables[i].match(regex_consonants);
 		var random = Math.round(Math.random());
@@ -118,6 +122,8 @@ function textToPhonemes(string){
 			else if(consonant === 'es'){ consonant = 'z'; }
 			else if(consonant.length){ consonant = consonant[0]; }
 			phonemes = phonemes.concat(consonant.toLowerCase());
+			times.push(time_stepper);
+			time_stepper+=0.5;
 		}
 
 		var vowel = syllables[i].match(regex_vowels);
@@ -142,15 +148,15 @@ function textToPhonemes(string){
 			else if(vowel[0] === 'ey'){ v = 'ay'; }
 			else if(vowel[0] === 'ia'){ v = ['ee','uh']; }
 			else if(vowel[0] === 'ie'){ v = ['ah','ee']; }
-			else if(vowel[0] === 'ii'){ v = 'ee'; }
+			else if(vowel[0] === 'ii'){ v = ['ee','ah','ee']; }
 			else if(vowel[0] === 'io'){ v = ['ee','oh']; }
 			else if(vowel[0] === 'iu'){ v = ['ee','uh']; }
 			else if(vowel[0] === 'iy'){ v = 'ee'; }
 			else if(vowel[0] === 'oa'){ v = ['oh','uh']; }
 			else if(vowel[0] === 'oe'){ v = 'oh'; }
 			else if(vowel[0] === 'oi'){ v = 'oy'; }
-			else if(vowel[0] === 'ou'){ v = random ? 'ow' : 'oo'; }
-			else if(vowel[0] === 'oy'){ v = random ? 'ow' : 'oo'; }
+			else if(vowel[0] === 'ou'){ v = random ? 'ow' : 'uh'; }
+			else if(vowel[0] === 'oy'){ v = 'oy'; }
 			else if(vowel[0] === 'ua'){ v = ['oo','uh']; }
 			else if(vowel[0] === 'ue'){ v = 'oo'; }
 			else if(vowel[0] === 'ui'){ v = ['oo','ee']; }
@@ -164,36 +170,40 @@ function textToPhonemes(string){
 			else if(vowel[0] === 'yu'){ phonemes.push('y'); v = 'uh'; }
 			else if(vowel[0] === 'yy'){ v = 'ee'; }
 			phonemes = phonemes.concat(v);
+			times.push(time_stepper++);
+		}
+
+		var pause = syllables[i].match(regex_pauses);
+		if(pause !== null){
+			phonemes.push('');
+			time_stepper+=2;
+			times.push(time_stepper);
 		}
 	}
 
-	return phonemes;
+	return [phonemes,times];
 }
-
 
 voice.prototype.queuePhoneme = function(phoneme,time){
 	if(wray.buffers[phoneme] !== undefined){
 		var buffa = waapi.createBufferSource();
 		buffa.buffer = wray.buffers[phoneme];
 		buffa.connect(master);
+		buffa.playbackRate.value = Math.random()*0.1-0.05+1.25;
 		buffa.start(time);
-		buffa.stop(time+0.095);
+		buffa.stop(time+0.15);
 	}
 };
 
+voice.prototype.queueString = function(){
+
+	var phones = textToPhonemes(source_text.value);
+
+	for(var i = 0; i<phones[0].length; i++){
+		wray.queuePhoneme(phones[0][i],waapi.currentTime+(phones[1][i]*0.03));
+	}
+}
 
 var source_text = document.getElementById('source_text');
-console.log(source_text.value);
-
-var phones = textToPhonemes(source_text.value);
-console.log('dis many',phones.length);
 
 wray = new voice('wray');
-
-wray.loadVoice();
-
-setTimeout(function(){
-	for(var i = 0; i<phones.length; i++){
-		wray.queuePhoneme(phones[i],waapi.currentTime+(i*0.095));
-	}
-}, 3000);
