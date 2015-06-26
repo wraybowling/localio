@@ -99,34 +99,40 @@ voice.prototype.loadVoice = function(){
 
 function textToPhonemes(string){
 	// split string into usable syllables
-	var regex_syllables = /((ch|ph|sh|th|qu|es|[a-z])[aeiouy]+|[ –—,!~\-\.\?\n])/ig;
+	var regex_syllables = /([ –—,!~\-\.\?\n]|(qu|[wrtpsdfghjklzxcvbmn]){0,2}[aeiouy]{0,2})/ig;
 	var syllables = string.match(regex_syllables);
-	console.log(syllables);
 
 	// split the consonant+vowel pairs
 	var regex_consonants = /(ch|ph|sh|th|qu|es|[wrtpsdfghjklzxcvbmn])/i;
-	var regex_vowels = /q?[aeiouy][aeiouy]?/i;
+	var regex_vowels = /[aeiouy][aeiouy]?/i;
 	var regex_pauses = /[ –—,!~\-\.\?\n]/g;
 	var phonemes = [];
 	var times = [];
 	var time_stepper = 0;
 	for (var i = 0; i < syllables.length; i++) {
-		var consonant = syllables[i].match(regex_consonants);
 		var random = Math.round(Math.random());
+
+		var consonant = syllables[i].match(regex_consonants);
+		console.log(consonant);
 		if(consonant !== null){
-			if(consonant === 'c'){ consonant = random ? 'k' : 's'; }
-			else if(consonant === 'g'){ consonant = random ? 'g' : 'j'; }
-			else if(consonant === 'ph'){ consonant = 'f'; }
-			else if(consonant === 's'){ consonant = random ? 's' : 'z'; }
-			else if(consonant === 'x'){ consonant = random ? ['k','s'] : 'z'; }
-			else if(consonant === 'es'){ consonant = 'z'; }
-			else if(consonant.length){ consonant = consonant[0]; }
-			phonemes = phonemes.concat(consonant.toLowerCase());
-			times.push(time_stepper);
-			time_stepper+=0.5;
+			var c;
+			consonant[0] = consonant[0].toLowerCase();
+			if(consonant[0] === 'c'){ c = random ? 'k' : 's'; }
+			else if(consonant[0] === 'g'){ c = random ? 'g' : 'j'; }
+			else if(consonant[0] === 'ph'){ c = 'f'; }
+			else if(consonant[0] === 's'){ c = random ? 's' : 'z'; }
+			else if(consonant[0] === 'x'){ c = random ? ['k','s'] : 'z'; }
+			else if(consonant[0] === 'es'){ c = 'z'; }
+			else if(consonant.length){ c = consonant[0]; }
+			phonemes = phonemes.concat(c.toLowerCase());
+			for(var j=0; j<c.length; j++){
+				times.push(time_stepper);
+				time_stepper+=60;
+			}
 		}
 
 		var vowel = syllables[i].match(regex_vowels);
+		console.log(vowel);
 		if(vowel !== null){
 			var v;
 			vowel[0] = vowel[0].toLowerCase();
@@ -143,7 +149,7 @@ function textToPhonemes(string){
 			else if(vowel[0] === 'au'){ v = 'au'; }
 			else if(vowel[0] === 'ea'){ v = 'ee'; }
 			else if(vowel[0] === 'ei'){ v = 'ay'; }
-			else if(vowel[0] === 'eo'){ v = 'oh'; }
+			else if(vowel[0] === 'eo'){ v = random ? 'uh' : ['ee','oh']; }
 			else if(vowel[0] === 'eu'){ v = 'oo'; }
 			else if(vowel[0] === 'ey'){ v = 'ay'; }
 			else if(vowel[0] === 'ia'){ v = ['ee','uh']; }
@@ -170,14 +176,17 @@ function textToPhonemes(string){
 			else if(vowel[0] === 'yu'){ phonemes.push('y'); v = 'uh'; }
 			else if(vowel[0] === 'yy'){ v = 'ee'; }
 			phonemes = phonemes.concat(v);
-			times.push(time_stepper++);
+			for(var j=0; j<v.length; j++){
+				times.push(time_stepper);
+				time_stepper+=100;
+			}
 		}
 
 		var pause = syllables[i].match(regex_pauses);
 		if(pause !== null){
 			phonemes.push('');
-			time_stepper+=2;
 			times.push(time_stepper);
+			time_stepper+=200;
 		}
 	}
 
@@ -191,7 +200,7 @@ voice.prototype.queuePhoneme = function(phoneme,time){
 		buffa.connect(master);
 		buffa.playbackRate.value = Math.random()*0.1-0.05+1.25;
 		buffa.start(time);
-		buffa.stop(time+0.15);
+		buffa.stop(time+0.12);
 	}
 };
 
@@ -200,7 +209,7 @@ voice.prototype.queueString = function(){
 	var phones = textToPhonemes(source_text.value);
 
 	for(var i = 0; i<phones[0].length; i++){
-		wray.queuePhoneme(phones[0][i],waapi.currentTime+(phones[1][i]*0.03));
+		wray.queuePhoneme(phones[0][i],waapi.currentTime+(phones[1][i]*0.001));
 	}
 }
 
