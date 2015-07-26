@@ -127,7 +127,7 @@ function textToPhonemes(string){
 			phonemes = phonemes.concat(c.toLowerCase());
 			for(var j=0; j<c.length; j++){
 				times.push(time_stepper);
-				time_stepper+=60;
+				time_stepper+=30;
 			}
 		}
 
@@ -146,8 +146,10 @@ function textToPhonemes(string){
 			else if(vowel[0] === 'ae'){ v = 'ay'; }
 			else if(vowel[0] === 'ai'){ v = ['ah','ee']; }
 			else if(vowel[0] === 'ao'){ v = 'au'; }
-			else if(vowel[0] === 'au'){ v = 'au'; }
+			else if(vowel[0] === 'au'){ v = random ? 'au' : 'aw'; }
+			else if(vowel[0] === 'ay'){ v = 'ay'; }
 			else if(vowel[0] === 'ea'){ v = 'ee'; }
+			else if(vowel[0] === 'ee'){ v = 'ee'; }
 			else if(vowel[0] === 'ei'){ v = 'ay'; }
 			else if(vowel[0] === 'eo'){ v = random ? 'uh' : ['ee','oh']; }
 			else if(vowel[0] === 'eu'){ v = 'oo'; }
@@ -161,6 +163,7 @@ function textToPhonemes(string){
 			else if(vowel[0] === 'oa'){ v = ['oh','uh']; }
 			else if(vowel[0] === 'oe'){ v = 'oh'; }
 			else if(vowel[0] === 'oi'){ v = 'oy'; }
+			else if(vowel[0] === 'oo'){ v = 'oo'; }
 			else if(vowel[0] === 'ou'){ v = random ? 'ow' : 'uh'; }
 			else if(vowel[0] === 'oy'){ v = 'oy'; }
 			else if(vowel[0] === 'ua'){ v = ['oo','uh']; }
@@ -178,7 +181,7 @@ function textToPhonemes(string){
 			phonemes = phonemes.concat(v);
 			for(var j=0; j<v.length; j++){
 				times.push(time_stepper);
-				time_stepper+=100;
+				time_stepper+=40;
 			}
 		}
 
@@ -186,7 +189,11 @@ function textToPhonemes(string){
 		if(pause !== null){
 			phonemes.push('');
 			times.push(time_stepper);
-			time_stepper+=200;
+			if(pause[0] === '\n'){ time_stepper+=500; }
+			if(pause[0] === '.'){ time_stepper+=250; }
+			if(pause[0] === '?'){ time_stepper+=350; }
+			if(pause[0] === '!'){ time_stepper+=350; }
+			else { time_stepper+=125; }
 		}
 	}
 
@@ -194,13 +201,13 @@ function textToPhonemes(string){
 }
 
 voice.prototype.queuePhoneme = function(phoneme,time){
-	if(wray.buffers[phoneme] !== undefined){
+	if(this.buffers[phoneme] !== undefined){
 		var buffa = waapi.createBufferSource();
-		buffa.buffer = wray.buffers[phoneme];
+		buffa.buffer = this.buffers[phoneme];
 		buffa.connect(master);
-		buffa.playbackRate.value = Math.random()*0.1-0.05+1.25;
+		buffa.playbackRate.value = Math.random()*0.1-0.05+1;
 		buffa.start(time);
-		buffa.stop(time+0.12);
+		buffa.stop(time+0.09);
 	}
 };
 
@@ -209,10 +216,11 @@ voice.prototype.queueString = function(){
 	var phones = textToPhonemes(source_text.value);
 
 	for(var i = 0; i<phones[0].length; i++){
-		wray.queuePhoneme(phones[0][i],waapi.currentTime+(phones[1][i]*0.001));
+		this.queuePhoneme(phones[0][i],waapi.currentTime+(phones[1][i]*0.001));
 	}
 }
 
 var source_text = document.getElementById('source_text');
 
 wray = new voice('wray');
+kendra = new voice('kendra');
